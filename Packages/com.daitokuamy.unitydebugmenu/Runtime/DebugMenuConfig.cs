@@ -36,7 +36,7 @@ namespace UnityDebugMenu {
 #if UNITY_EDITOR
                 if (!_editorGuiScale.HasValue) {
                     var key = string.Format($"{nameof(DebugMenuConfig)}://{nameof(EditorGUIScale)}");
-                    _editorGuiScale = EditorPrefs.GetFloat(key, 0.5f);
+                    _editorGuiScale = EditorPrefs.GetFloat(key, 1.0f);
                 }
 
                 return _editorGuiScale.Value;
@@ -46,7 +46,7 @@ namespace UnityDebugMenu {
             }
             set {
 #if UNITY_EDITOR
-                var prevValue = 0.5f;
+                var prevValue = 1.0f;
 
                 if (_editorGuiScale.HasValue) {
                     prevValue = _editorGuiScale.Value;
