@@ -16,8 +16,8 @@ namespace UnityDebugMenu {
         public float minWindowWidth = 200.0f;
         [Tooltip("最小のウィンドウサイズ(高さ)")]
         public float minWindowHeight = 200.0f;
-        [Tooltip("GUI表示の基準DPI"), Range(30, 400)]
-        public float baseDpi = 80.0f;
+        [Tooltip("GUI表示の基準解像度(高)")]
+        public int baseScreenHeight = 720;
         [Tooltip("DebugMenu表示条件(同時タッチ数)")]
         public int menuToggleTouchCount = 2;
         [Tooltip("DebugMenu表示条件(タッチ時間)")]
