@@ -1,7 +1,6 @@
 # unity-debug-menu
-![debug_item_sample](https://github.com/DaitokuAmy/unity-debug-menu/assets/6957962/b70ecfea-2b89-4ec5-8d77-9212ac19451d)
-![debug_window_sample](https://github.com/DaitokuAmy/unity-debug-menu/assets/6957962/d7db79ce-1220-416f-9f03-63e5e75886e7)
-![debug_config_sample](https://github.com/DaitokuAmy/unity-debug-menu/assets/6957962/a5d14699-1077-47ab-aecb-52cef0b7e90f)
+![debug_item_sample](https://github.com/DaitokuAmy/unity-debug-menu/assets/6957962/9b614cdc-27d8-4f89-8f18-901e9cd6d105)
+![debug_window_sample](https://github.com/DaitokuAmy/unity-debug-menu/assets/6957962/a380bc37-e4cf-4f1b-a96e-f20c075add74)
 
 ## 概要
 #### 特徴
