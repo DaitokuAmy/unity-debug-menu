@@ -11,7 +11,7 @@
 2. 「+」ボタン > Add package from git URL
 3. 以下を入力してインストール
    * https://github.com/DaitokuAmy/unity-debug-menu.git?path=/Packages/com.daitokuamy.unitydebugmenu
-   ![image](https://user-images.githubusercontent.com/6957962/209446846-c9b35922-d8cb-4ba3-961b-52a81515c808.png)
+   ![image](https://user-images.githubusercontent.com/6957962/209446846-c9b35922-d8cb-4ba3-961b-52a81515c808.png)  
 あるいはPackages/manifest.jsonを開き、dependenciesブロックに以下を追記します。
 ```json
 {
