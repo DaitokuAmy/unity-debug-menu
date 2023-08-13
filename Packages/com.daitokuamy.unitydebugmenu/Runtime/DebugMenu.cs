@@ -143,7 +143,7 @@ namespace UnityDebugMenu {
         /// ウィンドウの追加
         /// </summary>
         [System.Diagnostics.Conditional(UseDefineSymbol)]
-        public static void AddWindow(string path, DrawHandler onDraw, Rect windowRect,
+        public static void AddWindowItem(string path, DrawHandler onDraw, Rect windowRect,
             bool enableScrollBar = true) {
             var splitPaths = path.Split('/');
             var window = new Window(splitPaths[splitPaths.Length - 1], onDraw, windowRect,
@@ -152,21 +152,21 @@ namespace UnityDebugMenu {
         }
 
         [System.Diagnostics.Conditional(UseDefineSymbol)]
-        public static void AddWindow(string path, DrawHandler onDraw) {
-            AddWindow(path, onDraw, Window.DefaultRect);
+        public static void AddWindowItem(string path, DrawHandler onDraw) {
+            AddWindowItem(path, onDraw, Window.DefaultRect);
         }
 
         [System.Diagnostics.Conditional(UseDefineSymbol)]
-        public static void AddWindow(string path, DrawHandler onDraw, Vector2 windowScale) {
+        public static void AddWindowItem(string path, DrawHandler onDraw, Vector2 windowScale) {
             var defaultRect = Window.DefaultRect;
-            AddWindow(path, onDraw,
+            AddWindowItem(path, onDraw,
                 new Rect(defaultRect.min,
                     new Vector2(defaultRect.width * windowScale.x, defaultRect.height * windowScale.y)));
         }
 
         // ヘッダーフッター付き
         [System.Diagnostics.Conditional(UseDefineSymbol)]
-        public static void AddWindow(string path, DrawHeaderHandler onDrawHeader, DrawHandler onDraw,
+        public static void AddWindowItem(string path, DrawHeaderHandler onDrawHeader, DrawHandler onDraw,
             DrawFooterHandler onDrawFooter, Rect windowRect, bool enableScrollBar = true) {
             var splitPaths = path.Split('/');
             var window = new Window(splitPaths[splitPaths.Length - 1], onDrawHeader, onDraw, onDrawFooter,
@@ -175,16 +175,16 @@ namespace UnityDebugMenu {
         }
 
         [System.Diagnostics.Conditional(UseDefineSymbol)]
-        public static void AddWindow(string path, DrawHeaderHandler onDrawHeader, DrawHandler onDraw,
+        public static void AddWindowItem(string path, DrawHeaderHandler onDrawHeader, DrawHandler onDraw,
             DrawFooterHandler onDrawFooter) {
-            AddWindow(path, onDrawHeader, onDraw, onDrawFooter, Window.DefaultRect);
+            AddWindowItem(path, onDrawHeader, onDraw, onDrawFooter, Window.DefaultRect);
         }
 
         [System.Diagnostics.Conditional(UseDefineSymbol)]
-        public static void AddWindow(string path, DrawHeaderHandler onDrawHeader, DrawHandler onDraw,
+        public static void AddWindowItem(string path, DrawHeaderHandler onDrawHeader, DrawHandler onDraw,
             DrawFooterHandler onDrawFooter, Vector2 windowScale) {
             var defaultRect = Window.DefaultRect;
-            AddWindow(path, onDrawHeader, onDraw, onDrawFooter,
+            AddWindowItem(path, onDrawHeader, onDraw, onDrawFooter,
                 new Rect(defaultRect.min,
                     new Vector2(defaultRect.width * windowScale.x, defaultRect.height * windowScale.y)));
         }

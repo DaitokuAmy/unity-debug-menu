@@ -20,13 +20,15 @@ namespace Samples {
         private void Start() {
             for (var i = 0; i < 10; i++) {
                 var index = i;
-                DebugMenu.AddWindow($"Sample/Windows/Window_{i}", _ => {
+                DebugMenu.AddWindowItem($"Sample/Windows/Window_{i}", _ => {
                     DebugMenuUtil.LabelField("TestLabel", "Hoge");
                     _testEnum = DebugMenuUtil.EnumArrowOrderField("TestEnum", _testEnum);
                     _on = DebugMenuUtil.ToggleButtonField("TestOnOff", _on);
                     if (DebugMenuUtil.ButtonField("TestButton", "Execute")) {
-                        Debug.Log("Execute TestButton");
+                        Debug.Log($"Execute TestButton({index})");
                     }
+                    
+                    GUILayout.Label("Test");
                 });
             }
 
