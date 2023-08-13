@@ -49,6 +49,8 @@ namespace UnityDebugMenu {
             public string Title { get; private set; }
             // 開いているか
             public bool IsOpen { get; private set; }
+            // 開いたときのパス
+            public string OpenPath { get; private set; } = "";
             // ウィンドウサイズ
             public Rect WindowRect { get; set; }
             // 描画処理
@@ -186,8 +188,9 @@ namespace UnityDebugMenu {
             /// <summary>
             /// 開く
             /// </summary>
-            public void Open() {
+            public void Open(string openPath) {
                 IsOpen = true;
+                OpenPath = openPath;
 
                 // ScreenRect内に修める
                 var windowRect = WindowRect;
@@ -204,6 +207,7 @@ namespace UnityDebugMenu {
             /// </summary>
             public void Close() {
                 IsOpen = false;
+                OpenPath = "";
                 _isTouchScaleArea = false;
                 _scrollBarPos = Vector2.zero;
             }
