@@ -1,0 +1,14 @@
+{
+    "name": "com.daitokuamy.unitydebugmenu",
+    "displayName": "UnityDebugMenu",
+    "version": "0.9.0",
+    "unity": "2022.3",
+    "license" : "MIT",
+    "dependencies": { },
+    "author": {
+        "name": "Hironori Ito",
+        "url": "https://github.com/DaitokuAmy"
+    },
+    "type": "debug",
+    "description": "This is a IMGUI-based debug menu that can run onactual devices."
+}
