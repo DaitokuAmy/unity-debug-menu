@@ -23,3 +23,34 @@
 ```
 バージョンを指定したい場合には以下のように記述します。  
 https://github.com/DaitokuAmy/unity-debug-menu.git?path=/Packages/com.daitokuamy.unitydebugmenu#1.0.0
+
+## 使い方
+#### Configファイルの作成
+![image](https://github.com/DaitokuAmy/unity-debug-menu/assets/6957962/5322560e-4369-4d4d-875a-7c91922b26b2)
+1. ProjectWindowにて、Create > Unity Debug Menu > Config を選択して、Resourcesフォルダ直下にファイルを作成する
+
+### DebugMenuの登録/登録解除
+* ボタンを追加し、処理を実行する場合
+```csharp
+// Test/Sample階層にボタンを作成し、ログを出力する
+DebugMenu.AddItem("Test/Sample", _ => {
+    Debug.Log("Execute Sample");
+});
+
+// Test以下の登録したボタンを削除
+DebugMenu.RemoveItem("Test");
+```
+
+* ウィンドウを追加する場合
+```csharp
+// Test/SampleWindow階層にWindowを開くボタンを作成し、WindowのGUIを登録する
+DebugMenu.AddWindowItem("Test/SampleWindow", _ => {
+    GUILayout.Label("Test");
+    if (GUILayout.Button("Execute")) {
+        Debug.Log("Execute Sample Button");
+    }
+});
+
+// Test以下の登録したボタンを削除(Itemの時と同じ)
+DebugMenu.RemoveItem("Test");
+```
