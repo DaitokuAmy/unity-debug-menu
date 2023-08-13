@@ -59,7 +59,7 @@ DebugMenu.RemoveItem("Test");
 
 ### DebugMenuを表示する方法
 * UnityEditorの場合
-GameViewを右クリック
+  - GameViewを右クリック
 
 * 実機の場合
-デフォルト指定の場合、2本指タッチで3秒長押し or 3本指タッチで1秒長押し
+  - デフォルト指定の場合、2本指タッチで3秒長押し or 3本指タッチで1秒長押し
