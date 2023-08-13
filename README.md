@@ -48,6 +48,9 @@ DebugMenu.AddWindowItem("Test/SampleWindow", _ => {
     if (GUILayout.Button("Execute")) {
         Debug.Log("Execute Sample Button");
     }
+
+    // DebugMenuUtilクラスにLabel/ValueタイプのGUIユーティリティがある
+    _testEnum = DebugMenuUtil.EnumArrowOrderField("TestEnum", _testEnum);
 });
 
 // Test以下の登録したボタンを削除(Itemの時と同じ)
