@@ -98,7 +98,7 @@ namespace UnityDebugMenu {
         /// <summary>ウィンドウ内のボタンサイズ</summary>
         internal float ButtonSize => 24.0f;
         /// <summary>GUI表示の基準解像度(高)</summary>
-        internal int BaseScreenHeight => Config.baseScreenHeight;
+        internal int BaseResolution => Config.baseResolution;
         /// <summary>GUI表示のエディタ用スケール</summary>
         internal float EditorGuiScale => Config.EditorGUIScale;
         /// <summary>DebugMenu表示条件(同時タッチ数)</summary>
@@ -120,7 +120,8 @@ namespace UnityDebugMenu {
 #endif
                 
                 // 高さを基準にする
-                scale *= Screen.height / (float)BaseScreenHeight;
+                var targetResolution = Mathf.Max(Screen.height, Screen.width);
+                scale *= targetResolution / (float)BaseResolution;
 
                 return scale;
             }

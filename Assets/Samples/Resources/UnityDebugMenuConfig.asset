@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minWindowWidth: 200
   minWindowHeight: 200
-  baseDpi: 80
+  baseResolution: 720
   menuToggleTouchCount: 2
   menuToggleTouchTime: 3
   menuToggleFastTouchCount: 3

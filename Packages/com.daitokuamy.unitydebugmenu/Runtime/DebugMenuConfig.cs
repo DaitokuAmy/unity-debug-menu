@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Build;
@@ -16,8 +17,8 @@ namespace UnityDebugMenu {
         public float minWindowWidth = 200.0f;
         [Tooltip("最小のウィンドウサイズ(高さ)")]
         public float minWindowHeight = 200.0f;
-        [Tooltip("GUI表示の基準解像度(高)")]
-        public int baseScreenHeight = 720;
+        [Tooltip("GUI表示の基準解像度(端末の大きい方の長さを比較に使用)")]
+        public int baseResolution = 720;
         [Tooltip("DebugMenu表示条件(同時タッチ数)")]
         public int menuToggleTouchCount = 2;
         [Tooltip("DebugMenu表示条件(タッチ時間)")]
@@ -64,6 +65,7 @@ namespace UnityDebugMenu {
             }
         }
 
+#if UNITY_EDITOR
         /// <summary>
         /// DebugMenuを有効化するDefineSymbolが設定されているかチェック
         /// </summary>
@@ -92,7 +94,7 @@ namespace UnityDebugMenu {
                 .Where(x => BuildPipeline.IsBuildTargetSupported(BuildPipeline.GetBuildTargetGroup(x), x))
                 .Select(BuildPipeline.GetBuildTargetGroup)
                 .ToArray();
-            
+
             foreach (var buildTargetGroup in targetGroups) {
                 NamedBuildTarget namedBuildTarget;
                 try {
@@ -118,8 +120,9 @@ namespace UnityDebugMenu {
                     }
                 }
             }
-            
+
             AssetDatabase.SaveAssets();
         }
+#endif
     }
 }

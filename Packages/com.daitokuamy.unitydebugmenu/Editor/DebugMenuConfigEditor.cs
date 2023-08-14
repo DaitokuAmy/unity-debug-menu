@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace UnityDebugMenu.Editor {
@@ -25,10 +27,16 @@ namespace UnityDebugMenu.Editor {
             
             EditorGUILayout.Space();
 
-            // 選択中BuildTargetGroupの状態表示
-            var selectedBuildTargetGroup = EditorUserBuildSettings.selectedBuildTargetGroup;
+            // BuildTargetGroupの状態表示
             EditorGUILayout.LabelField("Define Symbol Status", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField(selectedBuildTargetGroup.ToString(), DebugMenuConfig.CheckDefineSymbol(selectedBuildTargetGroup).ToString());
+            var supportedBuildTargetGroups = ((BuildTarget[])Enum.GetValues(typeof(BuildTarget)))
+                .Where(x => BuildPipeline.IsBuildTargetSupported(BuildPipeline.GetBuildTargetGroup(x), x))
+                .Select(BuildPipeline.GetBuildTargetGroup)
+                .Distinct()
+                .ToArray();
+            foreach (var group in supportedBuildTargetGroups) {
+                EditorGUILayout.LabelField(group.ToString(), DebugMenuConfig.CheckDefineSymbol(group).ToString());
+            }
             
             // DefineSymbolの設定
             using (new EditorGUILayout.HorizontalScope()) {
