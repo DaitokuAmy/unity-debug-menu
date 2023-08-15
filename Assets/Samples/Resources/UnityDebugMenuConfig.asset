@@ -20,6 +20,7 @@ MonoBehaviour:
   menuToggleFastTouchCount: 3
   menuToggleFastTouchTime: 1
   editorMenuOpen:
+    active: 1
     shift: 1
     alt: 0
     controlOrCommand: 0

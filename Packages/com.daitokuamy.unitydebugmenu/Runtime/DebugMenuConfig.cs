@@ -19,6 +19,7 @@ namespace UnityDebugMenu {
         /// </summary>
         [Serializable]
         public struct EditorMenuOpen {
+            public bool active;
             public bool shift;
             public bool alt;
             public bool controlOrCommand;
@@ -45,6 +46,7 @@ namespace UnityDebugMenu {
         public float menuToggleFastTouchTime = 1.0f;
         [Tooltip("Editor上でのDebugMenuの開き方")]
         public EditorMenuOpen editorMenuOpen = new() {
+            active = true,
             shift = true,
             controlOrCommand = false,
             alt = false,

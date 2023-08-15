@@ -29,6 +29,10 @@ namespace UnityDebugMenu {
 	        var menuOpen = _config.editorMenuOpen;
 #if ENABLE_INPUT_SYSTEM
 #if UNITY_EDITOR || UNITY_STANDALONE
+	        if (!menuOpen.active) {
+		        return false;
+	        }
+	        
 	        var currentKeyboard = Keyboard.current;
 	        if (menuOpen.shift && !(currentKeyboard.leftShiftKey.isPressed || currentKeyboard.rightShiftKey.isPressed)) {
 		        return false;
@@ -75,6 +79,10 @@ namespace UnityDebugMenu {
 #endif
 #else
 #if UNITY_EDITOR || UNITY_STANDALONE
+	        if (!menuOpen.active) {
+		        return false;
+	        }
+
 	        if (menuOpen.shift && !(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))) {
 		        return false;
 	        }
