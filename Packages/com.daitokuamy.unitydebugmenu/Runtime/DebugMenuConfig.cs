@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -13,6 +14,21 @@ namespace UnityDebugMenu {
     /// </summary>
     [CreateAssetMenu(fileName = "UnityDebugMenuConfig.asset", menuName = "Unity Debug Menu/Config")]
     public class DebugMenuConfig : ScriptableObject {
+        /// <summary>
+        /// DebugMenuの開き方
+        /// </summary>
+        [Serializable]
+        public struct EditorMenuOpen {
+            public bool shift;
+            public bool alt;
+            public bool controlOrCommand;
+#if ENABLE_INPUT_SYSTEM
+            public Key keycode;
+#else
+            public KeyCode keycode;
+#endif
+        }
+        
         [Tooltip("最小のウィンドウサイズ(幅)")]
         public float minWindowWidth = 200.0f;
         [Tooltip("最小のウィンドウサイズ(高さ)")]
@@ -27,6 +43,17 @@ namespace UnityDebugMenu {
         public int menuToggleFastTouchCount = 3;
         [Tooltip("DebugMenu表示条件(高速タッチ時間)")]
         public float menuToggleFastTouchTime = 1.0f;
+        [Tooltip("Editor上でのDebugMenuの開き方")]
+        public EditorMenuOpen editorMenuOpen = new() {
+            shift = true,
+            controlOrCommand = false,
+            alt = false,
+#if ENABLE_INPUT_SYSTEM
+            keycode = Key.D,
+#else
+            keycode = KeyCode.D,
+#endif
+        };
 
         // GUI表示のEditor用スケール
         private float? _editorGuiScale = null;

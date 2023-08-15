@@ -60,7 +60,7 @@ namespace UnityDebugMenu {
         // Menuの表示状態
         private bool _visible;
         // Menuの表示切り替えインターフェース
-        private IDebugMenuHandler _handler = new DefaultDebugMenuHandler();
+        private IDebugMenuHandler _handler;
 
         // 項目一覧
         private Item _rootItem = null;
@@ -309,18 +309,14 @@ namespace UnityDebugMenu {
         /// </summary>
         [System.Diagnostics.Conditional(UseDefineSymbol)]
         public static void SetHandler(IDebugMenuHandler handler) {
-            if (s_instance == null || !Application.isPlaying) {
-                return;
-            }
-
-            Instance._handler = handler;
+            Instance.SetHandlerInternal(handler);
         }
 
         /// <summary>
         /// DebugMenu制御用ハンドラにデフォルトの物を設定
         /// </summary>
         public static void SetDefaultHandler() {
-            SetHandler(new DefaultDebugMenuHandler());
+            SetHandler(new DefaultDebugMenuHandler(Instance.Config));
         }
 
         /// <summary>
@@ -425,6 +421,17 @@ namespace UnityDebugMenu {
                     window.Close();
                 }
             }
+        }
+
+        /// <summary>
+        /// Handlerの設定
+        /// </summary>
+        private void SetHandlerInternal(IDebugMenuHandler handler) {
+            if (!Application.isPlaying) {
+                return;
+            }
+
+            _handler = handler;
         }
 
         /// <summary>
@@ -612,8 +619,8 @@ namespace UnityDebugMenu {
             // 設定ファイルをロード
             Config = Resources.Load<DebugMenuConfig>("UnityDebugMenuConfig");
 
-            // Switcherの初期設定
-            SetDefaultHandler();
+            // Handlerの初期設定
+            SetHandlerInternal(new DefaultDebugMenuHandler(Config));
 
             Reset();
         }

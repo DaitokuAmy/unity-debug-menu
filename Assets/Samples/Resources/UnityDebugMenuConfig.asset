@@ -19,3 +19,8 @@ MonoBehaviour:
   menuToggleTouchTime: 3
   menuToggleFastTouchCount: 3
   menuToggleFastTouchTime: 1
+  editorMenuOpen:
+    shift: 1
+    alt: 0
+    controlOrCommand: 0
+    keycode: 18
