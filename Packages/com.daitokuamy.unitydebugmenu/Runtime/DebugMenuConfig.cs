@@ -2,8 +2,10 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Directory = UnityEngine.Windows.Directory;
 
 #if UNITY_EDITOR
+using System.IO;
 using UnityEditor;
 using UnityEditor.Build;
 #endif
@@ -12,7 +14,6 @@ namespace UnityDebugMenu {
     /// <summary>
     /// DebugMenu用の設定ファイル
     /// </summary>
-    [CreateAssetMenu(fileName = "UnityDebugMenuConfig.asset", menuName = "Unity Debug Menu/Config")]
     public class DebugMenuConfig : ScriptableObject {
         /// <summary>
         /// DebugMenuの開き方
@@ -29,7 +30,11 @@ namespace UnityDebugMenu {
             public KeyCode keycode;
 #endif
         }
-        
+
+        private static DebugMenuConfig s_instance;
+
+        [Tooltip("表示に利用するSkin")]
+        public GUISkin skin;
         [Tooltip("最小のウィンドウサイズ(幅)")]
         public float minWindowWidth = 200.0f;
         [Tooltip("最小のウィンドウサイズ(高さ)")]
@@ -59,6 +64,29 @@ namespace UnityDebugMenu {
 
         // GUI表示のEditor用スケール
         private float? _editorGuiScale = null;
+
+        /// <summary>シングルトンインスタンス</summary>
+        public static DebugMenuConfig Instance {
+            get {
+                if (s_instance != null) {
+                    return s_instance;
+                }
+
+#if UNITY_EDITOR
+                var config = Resources.FindObjectsOfTypeAll<DebugMenuConfig>().FirstOrDefault();
+                if (config != null) {
+                    var preloadedAssets = PlayerSettings.GetPreloadedAssets().ToList();
+                    preloadedAssets.Add(config);
+                    PlayerSettings.SetPreloadedAssets(preloadedAssets.ToArray());
+                    AssetDatabase.SaveAssets();
+                }
+
+                s_instance = config;
+#endif
+
+                return s_instance;
+            }
+        }
 
         /// <summary>エディタ用のGUIScale</summary>
         public float EditorGUIScale {
@@ -95,6 +123,39 @@ namespace UnityDebugMenu {
         }
 
 #if UNITY_EDITOR
+        /// <summary>
+        /// コンフィグファイルの生成処理
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        [MenuItem("Assets/Create/Unity Debug Menu/Config Data")]
+        private static void CreateConfigData() {
+            // 既に存在していたらエラー
+            var config = PlayerSettings.GetPreloadedAssets().OfType<DebugMenuConfig>().FirstOrDefault();
+            if (config != null) {
+                throw new InvalidOperationException($"{nameof(DebugMenuConfig)} already exists in preloaded assets.");
+            }
+
+            var assetPath = EditorUtility.SaveFilePanelInProject($"Save {nameof(DebugMenuConfig)}", nameof(DebugMenuConfig), "asset", "", "Assets");
+            if (string.IsNullOrEmpty(assetPath)) {
+                return;
+            }
+
+            // フォルダがなかったら作る
+            var folderPath = Path.GetDirectoryName(assetPath);
+            if (!string.IsNullOrEmpty(folderPath) && !Directory.Exists(folderPath)) {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            // アセットを作成してPreloadedAssetsに設定
+            var instance = CreateInstance<DebugMenuConfig>();
+            instance.skin = AssetDatabase.LoadAssetAtPath<GUISkin>("Packages/com.daitokuamy.unitydebugmenu/Runtime/Skin/UnityDebugMenuSkin.guiskin");
+            AssetDatabase.CreateAsset(instance, assetPath);
+            var preloadedAssets = PlayerSettings.GetPreloadedAssets().ToList();
+            preloadedAssets.Add(instance);
+            PlayerSettings.SetPreloadedAssets(preloadedAssets.ToArray());
+            AssetDatabase.SaveAssets();
+        }
+
         /// <summary>
         /// DebugMenuを有効化するDefineSymbolが設定されているかチェック
         /// </summary>

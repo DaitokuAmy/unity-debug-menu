@@ -90,7 +90,7 @@ namespace UnityDebugMenu {
         /// <summary>表示モード</summary>
         internal Mode ViewMode { get; set; }
         /// <summary>GUI描画用スキン</summary>
-        internal GUISkin DebugGuiSkin { get; set; }
+        internal GUISkin DebugGuiSkin => Config?.skin;
         /// <summary>設定ファイル</summary>
         internal DebugMenuConfig Config { get; set; }
         /// <summary>表示に使っているScreen領域</summary>
@@ -613,11 +613,8 @@ namespace UnityDebugMenu {
             _rootItem = new Item("", null);
             _debugWindows = new List<Window>();
 
-            // デバッグメニュー用のスキンをロード
-            DebugGuiSkin = Resources.Load<GUISkin>("UnityDebugMenuSkin");
-
-            // 設定ファイルをロード
-            Config = Resources.Load<DebugMenuConfig>("UnityDebugMenuConfig");
+            // 設定ファイルを取得
+            Config = DebugMenuConfig.Instance;
 
             // Handlerの初期設定
             SetHandlerInternal(new DefaultDebugMenuHandler(Config));

@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb031e23d9cea5d44bde3387be404dea, type: 3}
-  m_Name: UnityDebugMenuConfig
-  m_EditorClassIdentifier: 
+  m_Name: DebugMenuConfig
+  m_EditorClassIdentifier: UnityDebugMenu::UnityDebugMenu.DebugMenuConfig
+  skin: {fileID: 11400000, guid: 10a25e3d376b73c42aad36d1aa922e0c, type: 2}
   minWindowWidth: 200
   minWindowHeight: 200
   baseResolution: 720
