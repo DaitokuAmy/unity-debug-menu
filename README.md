@@ -26,6 +26,7 @@ https://github.com/DaitokuAmy/unity-debug-menu.git?path=/Packages/com.daitokuamy
 ## 使い方
 #### Configファイルの作成＆DebugMenuの有効化
 <img width="508" height="484" alt="image" src="https://github.com/user-attachments/assets/f29ff58f-1755-43c8-853f-19f9e51ebac0" />
+
 1. メニューから Assets > Create > Unity Debug Menu > Config Data を選択して、任意の場所に DebugMenuConfig アセットを生成する
 2. ConfigのSet Define Symbolボタンを押して、DebugMenuを有効化する
 
