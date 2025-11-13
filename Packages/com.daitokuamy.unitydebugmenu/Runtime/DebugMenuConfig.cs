@@ -122,6 +122,15 @@ namespace UnityDebugMenu {
             }
         }
 
+        /// <summary>
+        /// アクティブ時処理
+        /// </summary>
+        private void OnEnable() {
+            if (s_instance == null) {
+                s_instance = this;
+            }
+        }
+
 #if UNITY_EDITOR
         /// <summary>
         /// コンフィグファイルの生成処理
