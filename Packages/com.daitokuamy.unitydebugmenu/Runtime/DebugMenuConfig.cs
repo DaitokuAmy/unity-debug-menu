@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-using Directory = UnityEngine.Windows.Directory;
+#endif
 
 #if UNITY_EDITOR
 using System.IO;
