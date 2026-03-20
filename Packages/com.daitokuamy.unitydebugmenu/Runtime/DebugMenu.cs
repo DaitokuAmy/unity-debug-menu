@@ -141,6 +141,7 @@ namespace UnityDebugMenu {
         [System.Diagnostics.Conditional(UseDefineSymbol)]
         public static void SetChangeActiveBackgroundFunction(Action<bool> action) {
             Instance._onChangeActiveBackground = action;
+            Instance.SetActiveBackground(Instance._backgroundActive);
         }
 
         /// <summary>
