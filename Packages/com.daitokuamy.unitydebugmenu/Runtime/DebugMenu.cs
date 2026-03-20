@@ -573,8 +573,8 @@ namespace UnityDebugMenu {
 
             if (_onChangeActiveBackground != null) {
                 var prevColor = GUI.color;
-                GUI.color = _backgroundActive ? Color.green : Color.gray;
-                var buttonName = _backgroundActive ? "タッチ有効" : "タッチ無効";
+                GUI.color = _backgroundActive ? Color.gray : Color.green;
+                var buttonName = _backgroundActive ? "タッチ無効" : "タッチ有効";
 
                 if (GUILayout.Button(buttonName, GUILayout.Height(ButtonSize))) {
                     SetActiveBackground(!_backgroundActive);
@@ -618,6 +618,9 @@ namespace UnityDebugMenu {
 
             // Handlerの初期設定
             SetHandlerInternal(new DefaultDebugMenuHandler(Config));
+            
+            // バックグラウンドアクティブ状態の初期化
+            _backgroundActive = Config.startBackgroundActive;
 
             Reset();
         }

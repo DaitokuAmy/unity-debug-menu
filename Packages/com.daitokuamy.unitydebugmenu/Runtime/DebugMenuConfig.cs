@@ -50,6 +50,8 @@ namespace UnityDebugMenu {
         public int menuToggleFastTouchCount = 3;
         [Tooltip("DebugMenu表示条件(高速タッチ時間)")]
         public float menuToggleFastTouchTime = 1.0f;
+        [Tooltip("DebugMenuの背面有効状態の初期値")]
+        public bool startBackgroundActive = true;
         [Tooltip("Editor上でのDebugMenuの開き方")]
         public EditorMenuOpen editorMenuOpen = new() {
             active = true,
