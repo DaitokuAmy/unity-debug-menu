@@ -118,7 +118,7 @@ namespace UnityDebugMenu {
 #else
                 var scale = 1.0f;
 #endif
-                
+
                 // 高さを基準にする
                 var targetResolution = Mathf.Max(Screen.height, Screen.width);
                 scale *= targetResolution / (float)BaseResolution;
@@ -140,8 +140,7 @@ namespace UnityDebugMenu {
         /// </summary>
         [System.Diagnostics.Conditional(UseDefineSymbol)]
         public static void SetChangeActiveBackgroundFunction(Action<bool> action) {
-            Instance._onChangeActiveBackground = action;
-            Instance.SetActiveBackground(Instance._backgroundActive);
+            Instance.SetChangeActiveBackground(action);
         }
 
         /// <summary>
@@ -177,7 +176,7 @@ namespace UnityDebugMenu {
             if (Instance == null || !Application.isPlaying) {
                 return ItemHandle.Empty;
             }
-            
+
 #if USE_UNITY_DEBUG_MENU
             var splitPaths = path.Split('/');
             var window = new Window(splitPaths[splitPaths.Length - 1], onDraw, windowRect,
@@ -221,7 +220,7 @@ namespace UnityDebugMenu {
             if (Instance == null || !Application.isPlaying) {
                 return ItemHandle.Empty;
             }
-            
+
 #if USE_UNITY_DEBUG_MENU
             var splitPaths = path.Split('/');
             var window = new Window(splitPaths[splitPaths.Length - 1], onDrawHeader, onDraw, onDrawFooter,
@@ -619,7 +618,7 @@ namespace UnityDebugMenu {
 
             // Handlerの初期設定
             SetHandlerInternal(new DefaultDebugMenuHandler(Config));
-            
+
             // バックグラウンドアクティブ状態の初期化
             _backgroundActive = Config.startBackgroundActive;
 
@@ -661,10 +660,17 @@ namespace UnityDebugMenu {
         private void SetMenuVisible(bool isVisible) {
             _visible = isVisible;
 
-            // 開き直してもタッチ無効フラグを維持したい
-            if (!_backgroundActive) {
-                _onChangeActiveBackground?.Invoke(!_visible);
-            }
+            // バックグラウンドのアクティブ状態反映
+            _onChangeActiveBackground?.Invoke(_visible && _backgroundActive);
+        }
+
+        /// <summary>
+        /// 背景アクティブ変更通知用コールバックの設定
+        /// </summary>
+        private void SetChangeActiveBackground(Action<bool> action) {
+            _onChangeActiveBackground?.Invoke(false);
+            _onChangeActiveBackground = action;
+            _onChangeActiveBackground?.Invoke(_visible && _backgroundActive);
         }
 
         /// <summary>
