@@ -72,7 +72,7 @@ namespace UnityDebugMenu {
         private bool _backgroundActive = false;
 
         /// <summary>表示状態</summary>
-        public static bool IsVisible => Instance != null && Instance._visible;
+        public static bool IsVisible => s_instance != null && s_instance._visible;
         /// <summary>シングルトンインスタンス</summary>
         private static DebugMenu Instance {
             get {
@@ -155,14 +155,16 @@ namespace UnityDebugMenu {
         /// コンテンツの追加
         /// </summary>
         public static ItemHandle AddItem(string path, ExecuteHandler onExecute, DisposeHandler onDispose = null) {
+#if !USE_UNITY_DEBUG_MENU
+            return ItemHandle.Empty;
+#else
             if (Instance == null || !Application.isPlaying) {
                 return ItemHandle.Empty;
             }
 
-#if USE_UNITY_DEBUG_MENU
             Instance.AddItemInternal(path, onExecute, onDispose);
-#endif
             return new ItemHandle(path);
+#endif
         }
 
         /// <summary>
@@ -173,17 +175,17 @@ namespace UnityDebugMenu {
         /// <param name="windowRect">Windowの位置/サイズ</param>
         /// <param name="enableScrollBar">スクロールバーを表示するか</param>
         public static ItemHandle AddWindowItem(string path, DrawHandler onDraw, Rect windowRect, bool enableScrollBar = true) {
+#if !USE_UNITY_DEBUG_MENU
+            return ItemHandle.Empty;
+#else
             if (Instance == null || !Application.isPlaying) {
                 return ItemHandle.Empty;
             }
 
-#if USE_UNITY_DEBUG_MENU
             var splitPaths = path.Split('/');
             var window = new Window(splitPaths[splitPaths.Length - 1], onDraw, windowRect,
                 enableScrollBar);
             return AddItem(path, _ => window.Open(path), _ => window.Close());
-#else
-            return ItemHandle.Empty;
 #endif
         }
 
@@ -193,7 +195,11 @@ namespace UnityDebugMenu {
         /// <param name="path">追加するパス</param>
         /// <param name="onDraw">描画処理</param>
         public static ItemHandle AddWindowItem(string path, DrawHandler onDraw) {
+#if !USE_UNITY_DEBUG_MENU
+            return ItemHandle.Empty;
+#else
             return AddWindowItem(path, onDraw, Window.DefaultRect);
+#endif
         }
 
         /// <summary>
@@ -203,8 +209,12 @@ namespace UnityDebugMenu {
         /// <param name="onDraw">描画処理</param>
         /// <param name="windowScale">Windowのサイズに対するスケール値</param>
         public static ItemHandle AddWindowItem(string path, DrawHandler onDraw, Vector2 windowScale) {
+#if !USE_UNITY_DEBUG_MENU
+            return ItemHandle.Empty;
+#else
             var defaultRect = Window.DefaultRect;
             return AddWindowItem(path, onDraw, new Rect(defaultRect.min, new Vector2(defaultRect.width * windowScale.x, defaultRect.height * windowScale.y)));
+#endif
         }
 
         /// <summary>
@@ -217,17 +227,17 @@ namespace UnityDebugMenu {
         /// <param name="windowRect">Windowのサイズを表すRect</param>
         /// <param name="enableScrollBar">Scrollbarを使うか</param>
         public static ItemHandle AddWindowItem(string path, DrawHeaderHandler onDrawHeader, DrawHandler onDraw, DrawFooterHandler onDrawFooter, Rect windowRect, bool enableScrollBar = true) {
+#if !USE_UNITY_DEBUG_MENU
+            return ItemHandle.Empty;
+#else
             if (Instance == null || !Application.isPlaying) {
                 return ItemHandle.Empty;
             }
 
-#if USE_UNITY_DEBUG_MENU
             var splitPaths = path.Split('/');
             var window = new Window(splitPaths[splitPaths.Length - 1], onDrawHeader, onDraw, onDrawFooter,
                 windowRect, enableScrollBar);
             return AddItem(path, _ => window.Open(path), _ => window.Close());
-#else
-            return ItemHandle.Empty;
 #endif
         }
 
@@ -239,7 +249,11 @@ namespace UnityDebugMenu {
         /// <param name="onDraw">GUI描画用コールバック</param>
         /// <param name="onDrawFooter">フッター部分のGUI描画用コール</param>
         public static ItemHandle AddWindowItem(string path, DrawHeaderHandler onDrawHeader, DrawHandler onDraw, DrawFooterHandler onDrawFooter) {
+#if !USE_UNITY_DEBUG_MENU
+            return ItemHandle.Empty;
+#else
             return AddWindowItem(path, onDrawHeader, onDraw, onDrawFooter, Window.DefaultRect);
+#endif
         }
 
         /// <summary>
@@ -251,8 +265,12 @@ namespace UnityDebugMenu {
         /// <param name="onDrawFooter">フッター部分のGUI描画用コール</param>
         /// <param name="windowScale">Windowのサイズに対するスケール値</param>
         public static ItemHandle AddWindowItem(string path, DrawHeaderHandler onDrawHeader, DrawHandler onDraw, DrawFooterHandler onDrawFooter, Vector2 windowScale) {
+#if !USE_UNITY_DEBUG_MENU
+            return ItemHandle.Empty;
+#else
             var defaultRect = Window.DefaultRect;
             return AddWindowItem(path, onDrawHeader, onDraw, onDrawFooter, new Rect(defaultRect.min, new Vector2(defaultRect.width * windowScale.x, defaultRect.height * windowScale.y)));
+#endif
         }
 
         /// <summary>
@@ -316,7 +334,9 @@ namespace UnityDebugMenu {
         /// DebugMenu制御用ハンドラにデフォルトの物を設定
         /// </summary>
         public static void SetDefaultHandler() {
+#if USE_UNITY_DEBUG_MENU
             SetHandler(new DefaultDebugMenuHandler(Instance.Config));
+#endif
         }
 
         /// <summary>
@@ -615,6 +635,14 @@ namespace UnityDebugMenu {
 
             // 設定ファイルを取得
             Config = DebugMenuConfig.Instance;
+            if (Config == null) {
+                Debug.LogError(
+                    $"{nameof(DebugMenu)} requires a {nameof(DebugMenuConfig)} asset. " +
+                    "Create one from Assets/Create/Unity Debug Menu/Config Data.");
+                enabled = false;
+                Destroy(gameObject);
+                return;
+            }
 
             // Handlerの初期設定
             SetHandlerInternal(new DefaultDebugMenuHandler(Config));

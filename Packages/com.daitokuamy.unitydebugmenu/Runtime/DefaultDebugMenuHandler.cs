@@ -34,6 +34,10 @@ namespace UnityDebugMenu {
 	        }
 	        
 	        var currentKeyboard = Keyboard.current;
+	        if (currentKeyboard == null) {
+		        return false;
+	        }
+
 	        if (menuOpen.shift && !(currentKeyboard.leftShiftKey.isPressed || currentKeyboard.rightShiftKey.isPressed)) {
 		        return false;
 	        }
